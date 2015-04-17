@@ -1,8 +1,8 @@
 module Command
   def self.included(cls)
-    cls.extend InstanceExecutor
     cls.extend Build unless cls.ancestors.include? Build
     cls.extend ClassExecutor unless cls.ancestors.include? ClassExecutor
+    cls.extend InstanceExecutor unless cls.ancestors.include? Build
 
     cls.send :dependency, :logger, Logger
   end
