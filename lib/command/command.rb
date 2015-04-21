@@ -4,18 +4,18 @@ module Command
     cls.extend ClassExecutor unless cls.ancestors.include? ClassExecutor
     cls.extend InstanceExecutor unless cls.ancestors.include? Build
 
-    cls.send :dependency, :logger, Logger
+    cls.send :dependency, :logger, ::Telemetry::Logger
   end
 
   module Build
     def build(params=nil)
       params ||= {}
 
-      logger = Logger.get self
+      logger = ::Telemetry::Logger.get self
       logger.trace "Building"
 
       new.tap do |instance|
-        Logger.configure instance
+        ::Telemetry::Logger.configure instance
 
         subclass.configure_dependencies(instance)
 
